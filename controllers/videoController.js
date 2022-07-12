@@ -12,7 +12,7 @@ exports.video = (req, res) => {
     const videoPath = 'assets/B2BGold.mp4'
     const videoSize = fs.statSync(videoPath).size
 
-    const CHUNK_SIZE = 10 ** 6;
+    const CHUNK_SIZE = 10 ** 5;
 
     // Since it is a string, you need to convert it to a number
     // ---------------
