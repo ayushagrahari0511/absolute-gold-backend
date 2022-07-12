@@ -23,7 +23,7 @@ const app = express()
 // Configuring Cors --------------------
 // -------------------------
 
-// const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app']
+const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app']
 // const corsOption = {
 //     origin: function (origin, callback) {
 //         if(whitelist.indexOf(origin) !== -1) {
