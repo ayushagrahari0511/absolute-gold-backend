@@ -1,13 +1,17 @@
 const express = require('express')
-const dotenv = require('dotenv')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const video = require('./routes/video')
+const dbConnect = require('./database')
+const error = require('./middlewares/error')
+const userRoute = require('./routes/userRoute')
 
 // Acess to Environmet Variable ------------
 // ------------------
 
-dotenv.config()
+if(process.env.NODE_ENV !== "PRODUCTION") {
+    require("dotenv").config()
+}
 
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -16,35 +20,47 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 });
 
+// Connecting to database-----------------------
+// -----------------
+
+dbConnect()
+
 // Initializing express app-------------------
 // ------------------------
 const app = express()
+app.use(cookieParser())
 
 // Configuring Cors --------------------
 // -------------------------
 
-const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app']
-// const corsOption = {
-//     origin: function (origin, callback) {
-//         if(whitelist.indexOf(origin) !== -1) {
-//             callback(null, true)
-//         }
-//         else {
-//             callback(new Error('Not allowed by CORS'))
-//         }
-//     },
-//     optionsSuccessStatus: 200
-// }
+const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app', 'http://192.168.43.5:3000', '192.168.43.5:3000']
+const corsOption = {
+    origin: function (origin, callback) {
+        if(whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        }
+        else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200
+}
 
-app.use(cors())
-app.use(cookieParser())
+app.use(cors(corsOption))
 app.use(express.json())
 
+// Register all routes here
 app.use('/assets', video)
+app.use('/api', userRoute)
+
+// Middleware for Errors
+app.use(error)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on PORT ${process.env.PORT}`)
 })
+
 
 // Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {
