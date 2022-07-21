@@ -11,8 +11,8 @@ const sendToken = (user, statusCode, res) => {
             Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
         ),
         httpOnly: true,
-        domain: process.env.NODE_ENV !== "PRODUCTION" ? 'localhost' : process.env.DOMAIN,
-        sameSite: lax
+        domain: process.env.NODE_ENV !== "production" ? 'localhost' : process.env.DOMAIN,
+        sameSite: "lax"
     };
 
     res.status(statusCode).cookie('token', token, options).json({
