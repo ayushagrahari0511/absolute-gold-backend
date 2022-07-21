@@ -9,7 +9,7 @@ const userRoute = require('./routes/userRoute')
 // Acess to Environmet Variable ------------
 // ------------------
 
-if(process.env.NODE_ENV !== "PRODUCTION") {
+if (process.env.NODE_ENV !== "PRODUCTION") {
     require("dotenv").config()
 }
 
@@ -36,7 +36,7 @@ app.use(cookieParser())
 const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app', 'http://192.168.43.5:3000', '192.168.43.5:3000']
 const corsOption = {
     origin: function (origin, callback) {
-        if(whitelist.indexOf(origin) !== -1) {
+        if (whitelist.indexOf(origin) !== -1) {
             callback(null, true)
         }
         else {
@@ -49,6 +49,12 @@ const corsOption = {
 
 app.use(cors(corsOption))
 app.use(express.json())
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    next();
+})
 
 // Register all routes here
 app.use('/assets', video)
