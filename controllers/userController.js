@@ -91,6 +91,7 @@ exports.logoutUser = catchAsyncError(
         res.cookie("token", null, {
             expires: new Date(Date.now()),
             httpOnly: true,
+            domain: process.env.NODE_ENV !== "production" ? 'localhost' : process.env.DOMAIN,
         });
 
         res.status(200).json({
