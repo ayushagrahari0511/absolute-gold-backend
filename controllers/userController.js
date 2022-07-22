@@ -88,14 +88,14 @@ exports.loginUser = catchAsyncError(
 
 exports.logoutUser = catchAsyncError(
     async (req, res, next) => {
-        // res.clearCokie("token")
+        res.cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+            path: '/',
+            domain: process.env.NODE_ENV !== "production" ? 'localhost' : process.env.DOMAIN,
+        });
 
-        // res.status(200).json({
-        //     success: true,
-        //     message: "Logged Out"
-        // })
-
-        res.status(200).clearCookie('token').json({
+        res.status(200).json({
             success: true,
             message: "Logged Out"
         })
