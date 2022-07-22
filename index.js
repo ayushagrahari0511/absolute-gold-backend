@@ -33,7 +33,7 @@ app.use(cookieParser())
 // Configuring Cors --------------------
 // -------------------------
 
-const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app', 'https://www.bizinnovisiondev.co']
+const whitelist = ['http://localhost:3000', 'https://absolute-gold.vercel.app', 'https://bizinnovisiondev.co']
 const corsOption = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
