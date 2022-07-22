@@ -12,7 +12,6 @@ const sendToken = (user, statusCode, res) => {
         ),
         httpOnly: true,
         domain: process.env.NODE_ENV !== "production" ? 'localhost' : process.env.DOMAIN,
-        sameSite: "lax"
     };
 
     res.status(statusCode).cookie('token', token, options).json({
