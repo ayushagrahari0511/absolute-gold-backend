@@ -12,6 +12,6 @@ router.post('/login', loginUser)
 
 router.get('/me', isAuthenticatedUser, getUserDetails)
 
-router.get('/logout', isAuthenticatedUser, logoutUser)
+router.post('/logout', isAuthenticatedUser, logoutUser)
 
 module.exports = router
