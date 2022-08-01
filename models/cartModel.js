@@ -4,12 +4,14 @@ const validator = require('validator')
 
 const cartSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref: "User"
     },
     items: [
         {
             productId: {
-                type: mongoose.Types.ObjectId
+                type: mongoose.Types.ObjectId,
+                ref: "Product"
             },
             title: {
                 type: String
@@ -25,9 +27,12 @@ const cartSchema = new mongoose.Schema({
             },
             quantity: {
                 type: Number
-            }
+            },
         }
-    ]
+    ],
+    bill: {
+        type: Number
+    }
 })
 
 module.exports = mongoose.model('Cart', cartSchema)
