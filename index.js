@@ -66,7 +66,7 @@ app.use(cors(corsOption))
 app.use(express.json())
 
 // Serve Static Assets
-app.use('/assets', express.static('assets'))
+app.use('/assets', express.static(__dirname+'/assets'))
 
 // Register all routes here
 app.use('/assets', video);
