@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 const endpointSecret = "whsec_Sa8VjsK43v6jcmQxpwoojCFQTkwaoULh"
+// const endpointSecret = "whsec_fa03fc0994c379da431f1dafbc998e17fba2a212cd939640adfeb7a484db45f3"
 
 exports.get_orders = async (req, res, next) => {
     try {
@@ -26,6 +27,24 @@ exports.get_orders = async (req, res, next) => {
     }
 }
 
+exports.payment_success = async (req, res, next) => {
+    try {
+        const client_secret = req.params.id;
+
+
+        const paymentIntent = await stripe.paymentIntents.retrieve(
+            client_secret
+        );
+
+        res.status(200).json({
+            success: true,
+            paymentIntent
+        })
+    }
+    catch (err) {
+        return next(new ErrorHandler("Internal server Error", 500))
+    }
+}
 
 exports.checkout = async (req, res, next) => {
     const userId = req.user._id;
